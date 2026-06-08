@@ -1,23 +1,25 @@
 # FFmpeg Timelapse Builder
 
-A simple Bash function for creating timelapse videos from DSLR or camera image sequences using FFmpeg.
+A lightweight command-line utility for creating timelapse videos from DSLR or camera image sequences using FFmpeg.
 
-Designed for photographers and hobbyists who want a quick command-line workflow without learning complex FFmpeg commands.
+Designed for photographers, content creators, and Linux users who want a simple workflow for generating high-quality timelapse videos without memorizing complex FFmpeg commands.
 
 ---
 
 ## Features
 
-* Interactive terminal prompts
-* Supports horizontal and vertical videos
+* Interactive CLI workflow
+* Horizontal and vertical video support
 * HD, HD+, and 4K output presets
 * Custom FPS selection
 * Automatic image sequence detection
-* Image count and estimated video duration
+* Image count and duration estimation
 * Output folder creation
 * Overwrite protection
 * FFmpeg validation
-* H.264 MP4 output compatible with most devices and platforms
+* H.264 MP4 output for maximum compatibility
+* System-wide installation via `/usr/local/bin`
+* Help and version commands
 
 ---
 
@@ -25,7 +27,7 @@ Designed for photographers and hobbyists who want a quick command-line workflow 
 
 ### FFmpeg
 
-Ubuntu/Debian:
+Ubuntu / Debian:
 
 ```bash
 sudo apt update
@@ -40,76 +42,97 @@ ffmpeg -version
 
 ---
 
-## Installation
+## Project Structure
 
-Open your Bash configuration file:
-
-```bash
-nano ~/.bashrc
-```
-
-Paste the `timelapse()` function into the file.
-
-Reload Bash:
-
-```bash
-source ~/.bashrc
-```
-
-Verify the function is available:
-
-```bash
-type timelapse
-```
-
-Expected output:
-
-```bash
-timelapse is a function
+```text
+ffmpeg-timelapse-builder/
+│
+├── README.md
+├── LICENSE
+├── install.sh
+├── uninstall.sh
+│
+└── bin/
+    └── timelapse
 ```
 
 ---
 
-## Expected Image Naming
+## Installation
 
-The script expects sequential image files named like:
+Clone the repository:
 
-```text
-DSC_0001.JPG
-DSC_0002.JPG
-DSC_0003.JPG
-DSC_0004.JPG
-...
+```bash
+git clone https://github.com/yourusername/ffmpeg-timelapse-builder.git
 ```
 
-Supported extensions:
+Enter the project directory:
+
+```bash
+cd ffmpeg-timelapse-builder
+```
+
+Make scripts executable:
+
+```bash
+chmod +x install.sh
+chmod +x uninstall.sh
+chmod +x bin/timelapse
+```
+
+Install:
+
+```bash
+./install.sh
+```
+
+Verify installation:
+
+```bash
+which timelapse
+```
+
+Expected output:
 
 ```text
-.JPG
-.jpg
-.JPEG
-.jpeg
+/usr/local/bin/timelapse
+```
+
+---
+
+## Uninstallation
+
+Remove the utility:
+
+```bash
+./uninstall.sh
+```
+
+Or manually:
+
+```bash
+sudo rm /usr/local/bin/timelapse
 ```
 
 ---
 
 ## Usage
 
-Run:
+Launch the application:
 
 ```bash
 timelapse
 ```
 
-The script will ask:
+The program will guide you through:
 
 ```text
-Source folder:
-Output folder:
-Output filename:
-Orientation:
-Quality:
-FPS:
+Source folder
+Output folder
+Output filename
+Orientation
+Quality
+FPS
 ```
 
 Example:
@@ -136,13 +159,62 @@ FPS:
 
 ---
 
+## Help
+
+Display usage information:
+
+```bash
+timelapse --help
+```
+
+---
+
+## Version
+
+Display installed version:
+
+```bash
+timelapse --version
+```
+
+Example:
+
+```text
+timelapse 1.0.0
+```
+
+---
+
+## Expected Image Naming
+
+The utility expects sequential image files such as:
+
+```text
+DSC_0001.JPG
+DSC_0002.JPG
+DSC_0003.JPG
+DSC_0004.JPG
+...
+```
+
+Supported extensions:
+
+```text
+.JPG
+.jpg
+.JPEG
+.jpeg
+```
+
+---
+
 ## Quality Presets
 
-| Option | Resolution  |
-| ------ | ----------- |
-| 1      | 1920px      |
-| 2      | 2560px      |
-| 3      | 3840px (4K) |
+| Option | Resolution   |
+| ------ | ------------ |
+| 1      | 1920px (HD)  |
+| 2      | 2560px (HD+) |
+| 3      | 3840px (4K)  |
 
 ---
 
@@ -150,38 +222,40 @@ FPS:
 
 ### Horizontal
 
-Ideal for:
+Recommended for:
 
 * YouTube
 * Desktop viewing
-* Landscape footage
+* Landscape photography
+* Presentations
 
 ### Vertical
 
-Ideal for:
+Recommended for:
 
 * YouTube Shorts
 * Instagram Reels
 * TikTok
-* Mobile viewing
+* Mobile-first platforms
 
 ---
 
 ## Output Format
 
-Generated video:
+Generated file:
 
 ```text
 filename.mp4
 ```
 
-Encoding:
+Encoding settings:
 
 ```text
 Codec: H.264 (libx264)
 Pixel Format: yuv420p
 CRF: 18
 Preset: fast
+Container: MP4
 ```
 
 Compatible with:
@@ -191,24 +265,26 @@ Compatible with:
 * TikTok
 * VLC
 * Windows Media Player
-* Mobile devices
+* Android
+* iOS
 
 ---
 
 ## Example Workflow
 
-1. Import photos from camera.
-2. Place them in a folder:
+1. Import images from your camera.
+2. Store them in a directory:
 
 ```text
 ~/photos/sunset/
 ```
 
-3. Ensure filenames follow:
+3. Ensure filenames follow a sequence:
 
 ```text
 DSC_0001.JPG
 DSC_0002.JPG
+DSC_0003.JPG
 ...
 ```
 
@@ -218,17 +294,16 @@ DSC_0002.JPG
 timelapse
 ```
 
-5. Follow prompts.
-
-6. Wait for rendering to finish.
-
-7. Enjoy your timelapse video.
+5. Follow the interactive prompts.
+6. Confirm the render settings.
+7. Wait for FFmpeg to complete.
+8. Enjoy your timelapse video.
 
 ---
 
 ## Troubleshooting
 
-### FFmpeg not found
+### FFmpeg Not Found
 
 Install FFmpeg:
 
@@ -236,11 +311,17 @@ Install FFmpeg:
 sudo apt install ffmpeg
 ```
 
+Verify:
+
+```bash
+ffmpeg -version
+```
+
 ---
 
-### No image sequence found
+### No Image Sequence Found
 
-Ensure images follow:
+Ensure your files follow a sequential naming pattern:
 
 ```text
 DSC_0001.JPG
@@ -248,13 +329,13 @@ DSC_0002.JPG
 ...
 ```
 
-and are located in the source directory.
+and are located inside the selected source directory.
 
 ---
 
-### Output video is too large
+### Output Video Is Too Large
 
-Increase CRF value in the script:
+Increase the CRF value inside the script:
 
 ```bash
 -crf 18
@@ -268,49 +349,61 @@ Examples:
 -crf 24
 ```
 
-Higher value = smaller file size.
+Higher values produce smaller files at the cost of quality.
 
 ---
 
-### Rendering is slow
+### Rendering Is Slow
 
-Change:
+Modify the encoding preset:
 
 ```bash
 -preset fast
 ```
 
-to:
-
-```bash
--preset veryfast
-```
-
-or
+Options:
 
 ```bash
 -preset faster
+-preset veryfast
 ```
+
+Faster presets reduce encoding time but may increase file size slightly.
 
 ---
 
-## Future Improvements
+## Roadmap
 
-Possible enhancements:
+Planned enhancements:
 
-* Hardware encoding (NVIDIA NVENC)
+* NVIDIA NVENC hardware encoding
 * Intel Quick Sync support
 * Deflicker filter
-* Motion blur
-* Image stabilization
+* Motion blur simulation
+* Video stabilization
 * Automatic Shorts/Reels export
-* Multiple output formats
+* Batch processing
+* Additional output formats
 * 8K export support
+
+---
+
+## Contributing
+
+Contributions, suggestions, bug reports, and feature requests are welcome.
+
+Feel free to open an issue or submit a pull request.
 
 ---
 
 ## License
 
-Free to use, modify, and distribute.
+Released under the MIT License. See the LICENSE file for details.
+
+---
+
+## Author
+
+Roshan Dhungana
 
 Built with Bash and FFmpeg.
